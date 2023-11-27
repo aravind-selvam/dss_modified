@@ -5,7 +5,7 @@ import torch.nn as nn
 
 
 class LSTMFeatureExtractor(nn.Module):
-    def init(
+    def __init__(
         self,
         in_channels: int,
         hidden_size: int,
@@ -14,7 +14,7 @@ class LSTMFeatureExtractor(nn.Module):
         stride: int,
         out_size: Optional[int] = None,
     ):
-        super().init()
+        super().__init__()
         self.fc = nn.Linear(in_channels, hidden_size)
         self.height = hidden_size * (2 if bidirectional else 1)
         self.lstm = nn.LSTM(
@@ -44,7 +44,7 @@ class LSTMFeatureExtractor(nn.Module):
             x = x.squeeze(1)  # x: (batch_size, in_channels, output_size)
         x = x.transpose(1, 2)  # x: (batch_size, output_size, in_channels)
         x = self.fc(x)  # x: (batch_size, output_size, hiddensize)
-        x,  = self.lstm(x)  # x: (batch_size, output_size, hidden_size * num_directions)
+        x,_ = self.lstm(x)  # x: (batch_size, output_size, hidden_size * num_directions)
         x = x.transpose(1, 2)  # x: (batch_size, hidden_size * num_directions, output_size)
         x = x.unsqueeze(1)  # x: (batch_size, out_chans, hidden_size * num_directions, time_steps)
         return x
