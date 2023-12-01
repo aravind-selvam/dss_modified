@@ -14,7 +14,7 @@ defaults:
   - dir: local
   - dataset: seg
   - model: Spec2DCNN
-  - feature_extractor: CNNSpectrogram
+  - feature_extractor: LSTMFeatureExtractor
   - decoder: UNet1DDecoder
   - split: fold_0
 
@@ -22,7 +22,7 @@ seed: 42
 exp_name: dummy
 batch_size: 32
 num_workers: 8
-duration: 8640
+duration: 5760
 downsample_rate: 2
 upsample_rate: 1
 
@@ -65,8 +65,8 @@ features:
   - "hour_cos"
   # - "minute_sin"
   # - "minute_cos"
-  # - "anglez_sin"
-  # - "anglez_cos"
+  - "anglez_sin"
+  - "anglez_cos"
 
 # optimizer
 optimizer:
